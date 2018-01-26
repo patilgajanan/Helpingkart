@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name_main">Helpingcart</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="your_personal_assistance">Your Personal Assistance</string>
+    <string name="APIKEY">AIzaSyD5ab5JTnsBvCM6Fwiujm6pkdHulMHAKTE</string>
+
+</resources>
