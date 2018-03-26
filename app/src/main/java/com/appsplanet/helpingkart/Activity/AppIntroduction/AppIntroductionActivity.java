@@ -57,6 +57,7 @@ public class AppIntroductionActivity extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AppIntroductionActivity.this, LoginActivity.class));
+                finish();
             }
         });
        /* btn_get_started_app_introduction.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +73,8 @@ public class AppIntroductionActivity extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AppIntroductionActivity.this, RegisterActivity.class));
+                finish();
+
             }
         });
 

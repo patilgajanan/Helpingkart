@@ -15,6 +15,9 @@ public class Config {
     public static String getOrderHistory = URL + "/booking_history.php?";
     public static String getProfileUser = URL + "/edit_profile.php?";
     public static String getHomeBanner = URL + "/banner.php?";
+    public static String getNotification = URL + "/notification_history.php";
+    public static String getResourceProfile = URL + "/request_resources.php?";
+
 
     public static String LOGIN_DEVICE_TOKEN = "login_device_token";
 
@@ -29,11 +32,6 @@ public class Config {
     public static String DB_Updated_address = "updated_address";
     public static String DB_REFERAL_CODE = "referal_code";
     public static String DB_REFERAL_POINTS = "referal_points";
-
-
-
-
-    public static String getNotification = URL + "/notification_history.php";
 
     public static final String TOPIC_GLOBAL = "global";
 

@@ -5,6 +5,7 @@ INJECTED from E:\Dipak Sonawane\Projects\Updated Helping Kart\Updated 18-08-2017
 INJECTED from E:\Dipak Sonawane\Projects\Updated Helping Kart\Updated 18-08-2017\Helpingkart\app\src\main\AndroidManifest.xml:2:1-60:12
 INJECTED from E:\Dipak Sonawane\Projects\Updated Helping Kart\Updated 18-08-2017\Helpingkart\app\src\main\AndroidManifest.xml:2:1-60:12
 MERGED from [com.github.arimorty:floatingsearchview:2.1.1] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\floatingsearchview-2.1.1.aar\6aa76b4d0f392021b61e3798db2a486f\AndroidManifest.xml:2:1-14:12
+MERGED from [com.yarolegovich:lovely-dialog:1.0.7] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\lovely-dialog-1.0.7.aar\bb06c6a0d3baefefbb096171bacb2f1c\AndroidManifest.xml:2:1-12:12
 MERGED from [com.android.support:design:26.1.0] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\e5c3452f669f5bde07221131c489a6fd\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\4658d0171012feee77c408bc72a82309\AndroidManifest.xml:17:1-31:12
 MERGED from [com.daimajia.slider:library:1.1.5] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\library-1.1.5.aar\2a3c471ac15925d30e8bd926505b9524\AndroidManifest.xml:2:1-14:12
@@ -278,6 +279,8 @@ INJECTED from E:\Dipak Sonawane\Projects\Updated Helping Kart\Updated 18-08-2017
 INJECTED from E:\Dipak Sonawane\Projects\Updated Helping Kart\Updated 18-08-2017\Helpingkart\app\src\main\AndroidManifest.xml
 MERGED from [com.github.arimorty:floatingsearchview:2.1.1] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\floatingsearchview-2.1.1.aar\6aa76b4d0f392021b61e3798db2a486f\AndroidManifest.xml:8:5-10:41
 MERGED from [com.github.arimorty:floatingsearchview:2.1.1] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\floatingsearchview-2.1.1.aar\6aa76b4d0f392021b61e3798db2a486f\AndroidManifest.xml:8:5-10:41
+MERGED from [com.yarolegovich:lovely-dialog:1.0.7] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\lovely-dialog-1.0.7.aar\bb06c6a0d3baefefbb096171bacb2f1c\AndroidManifest.xml:8:5-10:41
+MERGED from [com.yarolegovich:lovely-dialog:1.0.7] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\lovely-dialog-1.0.7.aar\bb06c6a0d3baefefbb096171bacb2f1c\AndroidManifest.xml:8:5-10:41
 MERGED from [com.android.support:design:26.1.0] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\e5c3452f669f5bde07221131c489a6fd\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:design:26.1.0] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\e5c3452f669f5bde07221131c489a6fd\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\dell\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\4658d0171012feee77c408bc72a82309\AndroidManifest.xml:21:5-23:78

@@ -15,8 +15,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +33,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     public static int REQUEST_PHONE_CALL = 552;
     ArrayList<Search> searchitem = new ArrayList<>();
     String string;
+    private static final int PERIOD = 2000;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private ImageView iv_notification_app_bar_main, iv_wallet_app_bar_main;
     private FloatingActionButton fab_support_call;
@@ -79,6 +83,11 @@ public class MainActivity extends AppCompatActivity
     private Spinner spinner;
     private CircleImageView imageView;
     private TextView tv_name_nav_header, tv_phone_nav_header, tv_location_selected, app_name_nav_bar, tv_location;
+    private long lastPressedTime;
+    private boolean back_status = false;
+    private int swiped_status = 0;
+    private CoordinatorLayout coordinate_layout_main;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         app_name_nav_bar = (TextView) findViewById(R.id.app_name_nav_bar);
         tv_location = (TextView) findViewById(R.id.tv_location);
         tv_location_selected = findViewById(R.id.tv_location_set);
-
+        coordinate_layout_main = findViewById(R.id.coordinate_layout_main);
         fab_support_call = (FloatingActionButton) findViewById(R.id.fab_support_call);
         //tv_notification_count = (TextView) findViewById(R.id.tv_notification_count);
 
@@ -111,6 +120,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "8237272827"));
                     startActivity(intent);
+                    back_status = true;
                 }
 
             }
@@ -207,7 +217,7 @@ public class MainActivity extends AppCompatActivity
                 try {
                     Class<?> s = Class.forName("com.appsplanet.helpingkart.Activity.NotificationActivity");
                     startActivity(new Intent(MainActivity.this, s));
-
+                    back_status = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -220,32 +230,61 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, WalletActivity.class));
+                back_status = true;
             }
         });
 
         addFragment(new HomeFragment(), getString(R.string.app_name_main));
 
+        back_status = true;
         ll_nav_header.setOnClickListener(new View.OnClickListener()
 
         {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                back_status = true;
             }
         });
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            switch (event.getAction()) {
+                case KeyEvent.ACTION_DOWN:
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
+                    if (back_status == false) {
+                        if (event.getDownTime() - lastPressedTime < PERIOD) {
+                            finish();
+                        } else {
+                            Functions.exitApp(MainActivity.this);
+                            lastPressedTime = event.getEventTime();
+                        }
+                    } else {
+                        back_status = true;
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        finish();
+                    }
+            }
+            return true;
+        }
+        return false;
+    }
+
+   /* @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
-        } else {
             //super.onBackPressed();
+        } else {
+
             Functions.exitApp(MainActivity.this);
         }
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -253,14 +292,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_home) {
             addFragment(new HomeFragment(), getString(R.string.app_name_main));
+            back_status = true;
         } else if (id == R.id.nav_booking) {
-
             addFragment(new BookingFragment(), "BOOKING HISTORY");
+            back_status = true;
         } else if (id == R.id.nav_points) {
             addFragment(new MyPoints(), "My Points");
+            back_status = true;
+
         } else if (id == R.id.nav_logout) {
             SplashScreenActivity.sharedPreferencesDatabase.removeData();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
             finish();
         }
 
@@ -313,7 +356,7 @@ public class MainActivity extends AppCompatActivity
         // by doing this, the activity will be notified each time a new message arrives
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(Config.PUSH_NOTIFICATION));
-
+        back_status = false;
         // clear the notification area when the app is opened
         NotificationUtils.clearNotifications(getApplicationContext());
     }

@@ -97,7 +97,6 @@ public class OtpActivity extends AppCompatActivity {
                                 SplashScreenActivity.sharedPreferencesDatabase.addData(Config.DB_REFERAL_CODE, refered_code);
                                 startActivity(new Intent(OtpActivity.this, MainActivity.class));
                                 finish();
-
                             } else if (response.has("error") && response.getString("error").equals("true")) {
                                 Snackbar.make(coordinatorLayout_otp, response.getString("message").toString(), Snackbar.LENGTH_LONG).show();
                             }

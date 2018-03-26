@@ -12,6 +12,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,11 +29,18 @@ import android.widget.TextView;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.appsplanet.helpingkart.Activity.DrawerFragments.Home.HomeItem;
 import com.appsplanet.helpingkart.Activity.MainActivity;
+import com.appsplanet.helpingkart.Activity.NotificationActivity;
 import com.appsplanet.helpingkart.Activity.ProfileActivity;
 import com.appsplanet.helpingkart.Activity.SplashScreenActivity;
+import com.appsplanet.helpingkart.Adapter.MyRecyclerViewAdapter;
+import com.appsplanet.helpingkart.Adapter.ResourceAdapter;
 import com.appsplanet.helpingkart.Class.Functions;
+import com.appsplanet.helpingkart.Class.NotificationItem;
+import com.appsplanet.helpingkart.Class.ResourceItem;
 import com.appsplanet.helpingkart.Config;
 import com.appsplanet.helpingkart.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -40,9 +49,11 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +71,9 @@ public class ViewServiceActivity extends AppCompatActivity {
     private TextView tv_service_name;
     private AutoCompleteTextView ac_address_view_service;
     private int PLACE_PICKER_REQUEST = 1;
+    private RecyclerView recyclerView_view_resource;
+    private ResourceAdapter resourceAdapter;
+    private TextView tv_resource_not_found;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -70,7 +84,8 @@ public class ViewServiceActivity extends AppCompatActivity {
         coordinatorLayout_service = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_service);
         toolbar_view_service = (Toolbar) findViewById(R.id.toolbar_view_service);
         pb_iv_location_add = (ProgressBar) findViewById(R.id.pb_iv_location_add_company);
-
+        recyclerView_view_resource = findViewById(R.id.recyclerView_view_resource);
+        tv_resource_not_found = findViewById(R.id.tv_resource_not_found);
         et_req_view_service = (EditText) findViewById(R.id.et_req_view_service);
         et_date_view_service = (EditText) findViewById(R.id.et_date_view_service);
         et_time_view_service = (EditText) findViewById(R.id.et_time_view_service);
@@ -82,6 +97,7 @@ public class ViewServiceActivity extends AppCompatActivity {
         iv_location_add = (ImageView) findViewById(R.id.iv_location_add);
         service_image = SplashScreenActivity.sharedPreferencesDatabase.getData("serviceimg");
         service_name = SplashScreenActivity.sharedPreferencesDatabase.getData("Servicename");
+        //get Resources profile
         Picasso.with(ViewServiceActivity.this).load(service_image).into(iv_service_img);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = ViewServiceActivity.this.getWindow();
@@ -156,6 +172,12 @@ public class ViewServiceActivity extends AppCompatActivity {
             }
 
         });
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewServiceActivity.this);
+        resourceAdapter = new ResourceAdapter(ViewServiceActivity.this, getresource(service_name));
+        recyclerView_view_resource.setLayoutManager(layoutManager);
+        recyclerView_view_resource.setAdapter(resourceAdapter);
+        recyclerView_view_resource.setNestedScrollingEnabled(false);
     }
 
     public void setBooking(final String mobile, final String requirement, final String service_date, final String service_time, final String service_address) {
@@ -200,6 +222,66 @@ public class ViewServiceActivity extends AppCompatActivity {
                 });
     }
 
+
+    public ArrayList<ResourceItem> getresource(final String service_name) {
+        //btnVisiblity(false);
+        final ArrayList<ResourceItem> homeItems = new ArrayList<>();
+        AndroidNetworking.post(Config.getResourceProfile)
+                .addBodyParameter("category", service_name)
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String name = jsonObject.getString("first_name");
+                                String lastname = jsonObject.getString("last_name");
+                                String email = jsonObject.getString("email");
+                                String service_type = jsonObject.getString("service_type");
+                                String image = jsonObject.getString("image_url");
+                                String mobile = jsonObject.getString("mobile");
+                                String address = jsonObject.getString("address");
+                                String imgurl = "http://helpingcart.com/need-hlp/";
+                                String combinedImage = imgurl + image;
+
+                                homeItems.add(new ResourceItem(combinedImage, name, lastname, email, service_type, mobile, address));
+                                if (resourceAdapter != null) {
+                                    resourceAdapter.notifyDataSetChanged();
+                                }
+
+                            }
+
+                        } catch (Exception e) {
+                            Snackbar.make(coordinatorLayout_service, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                            //btnVisiblity(true);
+                            tv_resource_not_found.setVisibility(View.VISIBLE);
+                            tv_resource_not_found.setText("No Resource Found");
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        if (TextUtils.equals(error.getErrorDetail(), "connectionError")) {
+                            Snackbar.make(coordinatorLayout_service, "No Internet Connection", Snackbar.LENGTH_SHORT).show();
+                        } else {
+
+                            Snackbar.make(coordinatorLayout_service, "No Resource Found", Snackbar.LENGTH_SHORT).show();
+                            tv_resource_not_found.setVisibility(View.VISIBLE);
+                            tv_resource_not_found.setText("No Resource Found");
+
+
+                        }
+                        //btnVisiblity(true);
+                    }
+                });
+        return homeItems;
+    }
+
+
     public void btnVisiblity(boolean status) {
         if (status) {
             btn_book_now_view_service.setVisibility(View.VISIBLE);
@@ -231,18 +313,7 @@ public class ViewServiceActivity extends AppCompatActivity {
                 iv_location_add.setVisibility(View.VISIBLE);
                 Place place = PlacePicker.getPlace(data, ViewServiceActivity.this);
                 et_address_view_service.setText(place.getAddress());
-               /* Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                try {
-                    List<Address> listAddresses = geocoder.getFromLocation(place.getLatLng().latitude, place.getLatLng().longitude, 1);
-                    if (null != listAddresses && listAddresses.size() > 0) {
-                        post_area = listAddresses.get(0).getSubLocality();
-                        post_city = listAddresses.get(0).getSubAdminArea();
-                        post_state = listAddresses.get(0).getAdminArea();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
+
             }
         }
     }

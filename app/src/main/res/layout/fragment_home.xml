@@ -24,7 +24,7 @@
                 android:focusableInTouchMode="true"
                 android:paddingBottom="7dp"
                 android:paddingLeft="16dp"
-                android:paddingTop="16dp"
+                android:paddingTop="13dp"
                 android:text="Recomonded service"
                 android:textColor="@color/dark_gray"
                 android:textStyle="bold" />

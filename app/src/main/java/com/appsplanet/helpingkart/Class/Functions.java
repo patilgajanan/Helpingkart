@@ -127,7 +127,7 @@ public class Functions {
 */
     public static void exitApp(final Context context) {
         new AlertDialog.Builder(context)
-                .setMessage("Are you sure you want to Logout?")
+                .setMessage("Are you sure you want to EXIT?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

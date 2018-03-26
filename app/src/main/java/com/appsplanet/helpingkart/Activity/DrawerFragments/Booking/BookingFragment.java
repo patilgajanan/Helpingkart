@@ -20,6 +20,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.appsplanet.helpingkart.Activity.DrawerFragments.Home.HomeFragment;
 import com.appsplanet.helpingkart.Activity.MainActivity;
 import com.appsplanet.helpingkart.Activity.ProfileActivity;
 import com.appsplanet.helpingkart.Activity.SplashScreenActivity;
@@ -49,7 +50,6 @@ public class BookingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_booking, container, false);
-
         user_mobile = SplashScreenActivity.sharedPreferencesDatabase.getData(Config.DB_REGISTER_MOBILE);
 
         recyclerView_booking = (RecyclerView) rootView.findViewById(R.id.recyclerView_booking);
@@ -181,7 +181,9 @@ public class BookingFragment extends Fragment {
 
                 });
         return viewBookingItems;
+
     }
+
 
     public void btnVisiblity(boolean status) {
         if (status) {
@@ -192,5 +194,6 @@ public class BookingFragment extends Fragment {
             pb_booking.setVisibility(View.VISIBLE);
         }
     }
+
 
 }

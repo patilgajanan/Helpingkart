@@ -86,14 +86,14 @@ public class HomeFragment extends Fragment {
         MainActivity.floating_search_view.setVisibility(View.VISIBLE);
         recycler_view_home = (RecyclerView) rootView.findViewById(R.id.recycler_view_home);
         getServiceCategory();
-        FragmentManager fm = getFragmentManager();
+      /*  FragmentManager fm = getFragmentManager();
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
                 if (getFragmentManager().getBackStackEntryCount() == 0)
                     Functions.exitApp(getActivity());
             }
-        });
+        });*/
         recycler_view_home.setNestedScrollingEnabled(false);
         mAdapter = new HomeAdapter(getActivity(), getServiceCategory());
         recycler_view_home.setHasFixedSize(true);

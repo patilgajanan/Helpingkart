@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                             Snackbar.make(coordinatorLayout_login, error.getErrorDetail(), Snackbar.LENGTH_SHORT).show();
                         }
                         btnVisiblity(true);
+
                     }
                 });
     }

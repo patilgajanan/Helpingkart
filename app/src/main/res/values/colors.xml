@@ -6,5 +6,9 @@
 
     <color name="black_overlay">#66000000</color>
 
+    <color name="blaxck_overlay">#66000000</color>
+
+
+    <color name="colorTextHintLight">#c7c7c7</color>
 
 </resources>

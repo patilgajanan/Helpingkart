@@ -69,6 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final HomeItem homeItem = homeItems.get(position);
         holder.tv_home_item.setText(homeItem.getTitle());
+
         if (!TextUtils.isEmpty(homeItem.getImg())) {
             Picasso.with(context).load(homeItem.getImg()).into(holder.iv_home_item, new Callback() {
                 @Override
